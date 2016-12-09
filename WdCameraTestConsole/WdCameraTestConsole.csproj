@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{16EB10AD-B459-43A2-8D25-F8C5C2FB3A35}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{55BC0723-5638-4753-BB66-AC22F9625F4B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WdCameraViewer</RootNamespace>
-    <AssemblyName>WdCameraViewer</AssemblyName>
+    <RootNamespace>WdCameraTestConsole</RootNamespace>
+    <AssemblyName>WdCameraTestConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -20,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,8 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,21 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IObjectSafety.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WdCameraViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WdCameraViewer.Designer.cs">
-      <DependentUpon>WdCameraViewer.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WdCameraViewer.resx">
-      <DependentUpon>WdCameraViewer.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WdCameraViewer\WdCameraViewer.csproj">
+      <Project>{16eb10ad-b459-43a2-8d25-f8c5c2fb3a35}</Project>
+      <Name>WdCameraViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WdVedioNet\WdVedioNet.csproj">
       <Project>{020dc6d6-9d98-42b9-9546-bbd8dfda7b65}</Project>
       <Name>WdVedioNet</Name>
