@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,16 +45,18 @@
     <Compile Include="XmlSerializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtzControl.cs" />
-    <Compile Include="WdCameraViewer.cs">
+    <Compile Include="PreviewBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WdCameraViewer.Designer.cs">
-      <DependentUpon>WdCameraViewer.cs</DependentUpon>
+    <Compile Include="PreviewBox.Designer.cs">
+      <DependentUpon>PreviewBox.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WdCameraViewer.resx">
-      <DependentUpon>WdCameraViewer.cs</DependentUpon>
+    <EmbeddedResource Include="PreviewBox.resx">
+      <DependentUpon>PreviewBox.cs</DependentUpon>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PreviewBox1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

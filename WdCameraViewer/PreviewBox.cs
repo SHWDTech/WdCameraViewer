@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,8 +9,10 @@ using WdVedioNet;
 
 namespace WdCameraViewer
 {
-    public partial class WdCameraViewer : UserControl, IObjectSafety
+    public partial class PreviewBox : UserControl, IObjectSafety
     {
+        private readonly ResourceManager _resource = new ResourceManager(typeof(PreviewBox));
+
         private bool _sdkInited;
 
         private string _displayMessage = string.Empty;
@@ -127,13 +130,11 @@ namespace WdCameraViewer
 
         #endregion
 
-        public WdCameraViewer()
+        public PreviewBox()
         {
             InitializeComponent();
-            RsaCryptoServiceProvider.FromXmlString("<RSAKeyValue><Modulus>rskuXzA61uvVRcNt+f168ePkLhHB4PpdNnCn1dzRcayxiceBNoNqY1Qk1WwFklMCZz3YcKqKFh/VBkDfFL9tqkWXBQ1V7+9LCJ3hoV+RCXuJcyQt8mwe0Kh0R2VOE5rK2zbTLsovBjJt1j40lPpAbg9e1pVd7bQlGyfR3yOZZ8tBOFxGpWHKnxrKYJeyFZbPLE2BcSreFckqbcXnRGUqvUQMBJA2pyXpIdnRdFmMZpqJpSavYpPsm9jiu/8JUzVQgvnDIu7NPhNdUC5DqpYGjN/RGYcxBWIZWOR6T+JQ0s4aBXdUJsrHcA9XYhD62snN5urt+mbnoO5af0NdoC2b8scHcNqOzZxVg7jbFfCNhHWbYv4GVWgAlVyhcR2dTo1mZn8mE3Hl6WeotD7MZk8Inx67tfKCq6YcaEFHoqPTLTY0u9V6mtJCDe83yOUbrXeK464MF+M8bRwoBeX4GYr1mHdfoMtZeIc9vgVZK1byF/RFwm8yLbr4F/aEsWd5CaHivOJCwdobgATdFf6vO56DZjWBFGvJB+WTCvJmbIv2qL6WCCH8xL2tZIj9Jdf8BC8UUOSidH7ooXHrEiWhlu17+XDmE/Q71f5aRdPZz9CizRPg1rMXfogu8mUneq8hr2I+oBn3o8BxNRGqjbl5yZRNdi9ZtyBhOne+X0yR+5CNdsM=</Modulus><Exponent>AQAB</Exponent><P>5WqdOKItrhKsT92OdSET+rufrXotzTa5f7ruswUHdTVFSgka4yNWXBjs5ugATWFk+9weMqLIWAi6T6OsCUPdOgzENK9yJ9d9D97GVQ5IBDKs9sE3PZt2UMoCy09ceD8wHqeyjOlQj7yi+o8sNJ7O5Zy/z4NPtPY1DiyWebmF2jZCyxk+DJQlMGozQRIIc6Ilh9hpLAgbbI58vgonOMFU0O2+ugD978TJbXCv1ijy0J1r1FVq1f8HETxigpV+vGNT92AAZ8mzMUNY21tDF5Dh/I2dWZ3oI5DYLfhcCORxuAGBnNqMoVSHba3GDU4z5JsGLwX1ep1RTKhwGAKUGN34gw==</P><Q>wwoCu40FPr60sIjZNX7Owxn2uq+GyyogljKvAPsnDKQ3Gxi+6jDIsnLvcBhMm1nWJvRrS25OIsXMzJyIhdwXOTQJotN9cs6BBnSGbpfifhLnqOQFGcwdKqqZaLklUR7lKMgnaBQ4g4T9/84PBv/0JxLNhleuz5coZdpSVephu8/cK654/U8GXqDh5XMeybI3S+O8bir1K1c6BOhw8OtzzUjHChghSM6wqhe7jZJw4nn73qLj9Toehhdv4C8td0/oB4unVfJUfvNdWwDmD0e1l4TLir1bJRIC1fQKFvjQGfEAC85qNQaNxBwNTcNauRfP4XxI5A3TF1j4e+maZFO0wQ==</Q><DP>l1cCilaqLbgRxcnRbUE57eCR0J3V0xdzvWgyiRQbPF287L8e5pHsKWsj9Js9f85tEJy/qwWphjGTvm+pUJ9dNCsxz9OhSdkknjCGw5tdNK+9XDZP26tPnLH2r+oVhRmiA8b6yWwsgfWdyg5iyf+tWtlRy3HDRgxZKZWOWpRhUXcUDukC/sdH1S1pzFY6DxX7DidcEfjzJmTEs5T9FLqs2frMI+X9notBmZmJ1YxDygzfEj6a8LqBDgS4s44tAdfAj2LcQZtUQ347AtGsa8Je4f0FvRWnCrdFdOXuyMryncEYoMGnndGmWVsWWLarEvaVWLXkn1NiS2CeOaiRy+m6Qw==</DP><DQ>JINCQbRD0BxJnWbxKvejY5j/vLFRjcVENnokkw1xoQc5HcSDMTqSx/2GX7jc1pR55+8ICyYKUK4xCfkgAddTLa1VRHtNV+na88dqx1d92lZVsiOF5O92Yl9vutA2cTpUck8OOYjXj5+dIX+FBq1yGsKFYWoW2twUfwThNx5az5s5P6A5HEroCV0bDSaBFAdeHMH0q7c1ELkSroqJYkDh/ANs57HewU+YeS9aOEW7BlsJ0QMzo9wOjNHkatbKLzTxXkBBwnBMazvKNVg0uZWWJFiC9mU+o/D8QOuf2+8WnlSkypEJBwZEEfuibfVtjYssqqzmxHLmGs/YLPJtqeyVwQ==</DQ><InverseQ>ZRF0bEdyeQ0aCmVPg6zhY02v8dG6GCj/9LMt8JlAimqg65yqSDukRBWdomqNBwJiuJ8Zu75xutLahUSFJwjFoCN3eVZhIYFFsP5t9iMOCT8TvVRsXvfX9fLsc0jp6ruh3Em9iP66cXmnumL0/iF3bdgJKQiP/Xnw036WLch1ARg+sxMTv/wn5rlo1GB0Jgsec9upgrFooO/fYi+MgzYI9Ffmy4DhEeRT/ESSoVgYXuoXDRD65cQLuIfXcq5Y6geQhz4xjsOpyQkyBFjmkaT0v26SPhRc3Qa0xv8jWxQ5JIlgBMcENUDAP02cNKWLvxwTk4zvVfnM+3E1hVOf6BRiWQ==</InverseQ><D>UiVJPwF61eG2tXf46wH/00mIx0IfPa5NOrXNm4yRfvxr4FY8WzN+P7qfKRMAt1l+CqmdXK46AdXqF2tLrQOe9eSI6p3u4rozKJSTI3W3w54k5lF9qq63+NcC9z8cZ8hbSJXGwPnTCfWPe552tgG7YD6nEvDWWU5OFiorz9R6V7bGK0frB/Ui9o3vyV/iGZVsPuUaTeaYw+Jsp3TYkWN+p78gatCgbwQ5QmiNsUIY42wD/vNkgE8HZ+OSBEsDxfCLq1LZLETRfzg4peNod/bUk0bpjjbkiiQlx4pyFbNGyxyETEdd7HFnNDpxlixmyYcI11tYh1PvzsnXDHLLwOlOng8Bb16mVhvhXTQV2oYQ/e1R8CoKrCWIa8r53wWHDDWBf9DEZZb70f75uFs/qDxVaQVP7O+5JiNZEdSGXm0qIiY14Id47CZRmX0VPWW4RdkiPtqE6vAYFEQbrjQrZ8ZbgBN6fJfoU2zOc5Pi/mDJVGEXTlNfj1fi509G8IyzZbHveOTgSh+8Ka3KCg2OEU/vfFhP5vHnqnf+W0+F/65GDCkK2kloITWiDXZPJwZWDVbYcXye++MsOWhtp1Dc5RB10NuNl2gxvvMocWnSUQ8Bcw1jJmaAPtRJ8f8Hdk0zGs8zhyc3k7rctRRSGSUflX6rA1AbcqyP+GZEbCwx+GT9wYE=</D></RSAKeyValue>");
             cameraViewer.Paint += WdCameraViewerPaint;
             Disposed += OnDiposed;
-            SdkInit();
         }
 
         /// <summary>
@@ -145,14 +146,15 @@ namespace WdCameraViewer
         {
             try
             {
+                SdkInit();
                 var oringinal = Encoding.UTF8.GetString(Convert.FromBase64String(paramsStrig));
                 var jsonParams = DecryptString(oringinal);
                 _cameraInfo = XmlSerializerHelper.DeSerialize<CameraInfo>(jsonParams);
                 CameraLogin();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                DisplayMessage($"解析连接信息失败，错误号：{ex.Data["HResult"]}");
+                DisplayMessage("解析连接信息失败。");
             }
         }
 
@@ -162,6 +164,13 @@ namespace WdCameraViewer
         private void SdkInit()
         {
             DisplayMessage("正在初始化控件。");
+            var privateKey = _resource.GetString("RsaPrivateKey");
+            if (string.IsNullOrEmpty(privateKey))
+            {
+                DisplayMessage("未找到资源文件，控件初始化失败。");
+                return;
+            }
+            RsaCryptoServiceProvider.FromXmlString(privateKey);
             _sdkInited = CHCNetSDK.NET_DVR_Init();
             if (_sdkInited == false)
             {

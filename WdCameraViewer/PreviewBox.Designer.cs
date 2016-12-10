@@ -1,6 +1,6 @@
 ﻿namespace WdCameraViewer
 {
-    partial class WdCameraViewer
+    partial class PreviewBox
     {
         /// <summary> 
         /// Required designer variable.
