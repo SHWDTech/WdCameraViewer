@@ -89,7 +89,7 @@ namespace ViewerTestForm
         /// <param name="e"></param>
         private void WdCameraViewerPaint(object sender, PaintEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_displayMessage)) return;
+            if (string.IsNullOrEmpty(_displayMessage)) return;
             using (var myFont = new Font("simsun", 14))
             {
                 e.Graphics.DrawString(_displayMessage, myFont, _displayBrush, wdCameraViewer.ClientRectangle, _displayStringFormat);

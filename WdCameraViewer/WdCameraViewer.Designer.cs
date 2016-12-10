@@ -28,34 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cameraPictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.cameraPictureBox)).BeginInit();
+            this.cameraViewer = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraViewer)).BeginInit();
             this.SuspendLayout();
             // 
-            // cameraPictureBox
+            // cameraViewer
             // 
-            this.cameraPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.cameraPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cameraPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.cameraPictureBox.Name = "cameraPictureBox";
-            this.cameraPictureBox.Size = new System.Drawing.Size(150, 150);
-            this.cameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.cameraPictureBox.TabIndex = 0;
-            this.cameraPictureBox.TabStop = false;
+            this.cameraViewer.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.cameraViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cameraViewer.Location = new System.Drawing.Point(0, 0);
+            this.cameraViewer.Name = "cameraViewer";
+            this.cameraViewer.Size = new System.Drawing.Size(150, 150);
+            this.cameraViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.cameraViewer.TabIndex = 0;
+            this.cameraViewer.TabStop = false;
             // 
             // WdCameraViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.cameraPictureBox);
+            this.Controls.Add(this.cameraViewer);
             this.Name = "WdCameraViewer";
-            ((System.ComponentModel.ISupportInitialize)(this.cameraPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraViewer)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox cameraPictureBox;
+        private System.Windows.Forms.PictureBox cameraViewer;
     }
 }
