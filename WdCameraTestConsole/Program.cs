@@ -12,7 +12,9 @@ namespace WdCameraTestConsole
         {
             try
             {
-                SerializeTest();
+                //SerializeTest();
+                GetIpServerAddress();
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
@@ -22,6 +24,24 @@ namespace WdCameraTestConsole
             //Console.WriteLine(ori);
             //Console.WriteLine((int)ori);
             //Console.ReadKey();
+        }
+
+        private static void GetIpServerAddress()
+        {
+            var inited = CHCNetSDK.NET_DVR_Init();
+            if (inited)
+            {
+                var senum = Encoding.UTF8.GetBytes("DS-7804N-K1/C0420161112CCRR677808992WVU");
+                byte[] devIp = new byte[2048];
+                uint port = 0;
+                var ret = CHCNetSDK.NET_DVR_GetDVRIPByResolveSvr_EX("114.55.175.99", 7071, null, 0, senum, (ushort)senum.Length, devIp,
+                    ref port);
+                Console.WriteLine(ret);
+                if (!ret)
+                {
+                    Console.WriteLine(CHCNetSDK.NET_DVR_GetLastError());
+                }
+            }
         }
 
         private static void SerializeTest()
