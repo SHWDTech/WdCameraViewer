@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace WdCameraViewer
 {
-    public class XmlSerializerHelper
+    public static class XmlSerializerHelper
     {
         public static string Serialize<T>(T target)
         {

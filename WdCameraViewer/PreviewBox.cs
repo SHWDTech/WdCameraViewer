@@ -51,7 +51,7 @@ namespace WdCameraViewer
 
         private CHCNetSDK.NET_DVR_IPCHANINFO_V40 _struChanInfoV40;
 
-        private CameraInfo _cameraInfo;
+        private CameraLogin _cameraLogin;
 
         private static readonly RSACryptoServiceProvider RsaCryptoServiceProvider = new RSACryptoServiceProvider();
 
@@ -68,8 +68,8 @@ namespace WdCameraViewer
         private const int EFail = unchecked((int)0x80004005);
         private const int ENointerface = unchecked((int)0x80004002);
 
-        private bool _fSafeForScripting = true;
-        private bool _fSafeForInitializing = true;
+        private readonly bool _fSafeForScripting = true;
+        private readonly bool _fSafeForInitializing = true;
 
         // ReSharper disable once RedundantAssignment
         public int GetInterfaceSafetyOptions(ref Guid riid, ref int pdwSupportedOptions, ref int pdwEnabledOptions)
@@ -149,7 +149,7 @@ namespace WdCameraViewer
                 SdkInit();
                 var oringinal = Encoding.UTF8.GetString(Convert.FromBase64String(paramsStrig));
                 var jsonParams = DecryptString(oringinal);
-                _cameraInfo = XmlSerializerHelper.DeSerialize<CameraInfo>(jsonParams);
+                _cameraLogin = XmlSerializerHelper.DeSerialize<CameraLogin>(jsonParams);
                 CameraLogin();
             }
             catch (Exception)
@@ -172,7 +172,7 @@ namespace WdCameraViewer
             }
             RsaCryptoServiceProvider.FromXmlString(privateKey);
             _sdkInited = CHCNetSDK.NET_DVR_Init();
-            if (_sdkInited == false)
+            if (!_sdkInited)
             {
                 DisplayMessage("控件初始化失败！");
                 return;
@@ -211,31 +211,27 @@ namespace WdCameraViewer
             var ipAddress = new byte[16];
             uint dwPort = 0;
             if (
-                !CHCNetSDK.NET_DVR_GetDVRIPByResolveSvr_EX("www.hik-online.com", 80, _cameraInfo.DomainBytes, (ushort)_cameraInfo.DomainBytes.Length,
-                    null, 0, ipAddress, ref dwPort))
+                !CHCNetSDK.NET_DVR_GetDVRIPByResolveSvr_EX(_cameraLogin.IpServerAddr, 7071, null, 0,
+                    _cameraLogin.DomainBytes, (ushort)_cameraLogin.DomainBytes.Length, ipAddress, ref dwPort))
             {
                 _lastError = CHCNetSDK.NET_DVR_GetLastError();
                 DisplayMessage($"域名解析失败，错误号：{_lastError}");
-            }
-            else
-            {
-                _dvrAddress = Encoding.UTF8.GetString(ipAddress).TrimEnd('\0');
-                _dvrPortNumber = (ushort)dwPort;
+                return;
             }
 
-            _loginUserId = CHCNetSDK.NET_DVR_Login_V30(_dvrAddress, _dvrPortNumber, _cameraInfo.User, _cameraInfo.Password, ref _deviceInfo);
+            _dvrAddress = Encoding.UTF8.GetString(ipAddress).TrimEnd('\0');
+            _dvrPortNumber = (ushort)dwPort;
+            _loginUserId = CHCNetSDK.NET_DVR_Login_V30(_dvrAddress, _dvrPortNumber, _cameraLogin.User, _cameraLogin.Password, ref _deviceInfo);
 
             if (_loginUserId < 0)
             {
                 _lastError = CHCNetSDK.NET_DVR_GetLastError();
                 DisplayMessage($"用户登录失败，错误号：{_lastError}");
+                return;
             }
-            else
-            {
-                DisplayMessage("用户登录成功，可以开始预览。");
-                _dwAChanTotalNum = _deviceInfo.byChanNum;
-                _dwDChanTotalNum = _deviceInfo.byIPChanNum + 256 * (uint)_deviceInfo.byHighDChanNum;
-            }
+            DisplayMessage("用户登录成功，可以开始预览。");
+            _dwAChanTotalNum = _deviceInfo.byChanNum;
+            _dwDChanTotalNum = _deviceInfo.byIPChanNum + (256 * (uint)_deviceInfo.byHighDChanNum);
 
             InfoIpChannel();
         }
@@ -248,57 +244,55 @@ namespace WdCameraViewer
             Marshal.StructureToPtr(_struIpParaCfgV40, ptrIpParaCfgV40, false);
 
             uint dwReturn = 0;
-            var iGroupNo = 0;  //该Demo仅获取第一组64个通道，如果设备IP通道大于64路，需要按组号0~i多次调用NET_DVR_GET_IPPARACFG_V40获取
+            const int iGroupNo = 0; //该Demo仅获取第一组64个通道，如果设备IP通道大于64路，需要按组号0~i多次调用NET_DVR_GET_IPPARACFG_V40获取
 
             if (!CHCNetSDK.NET_DVR_GetDVRConfig(_loginUserId, CHCNetSDK.NET_DVR_GET_IPPARACFG_V40, iGroupNo, ptrIpParaCfgV40, dwSize, ref dwReturn))
             {
                 _lastError = CHCNetSDK.NET_DVR_GetLastError();
                 DisplayMessage($"获取录像机通道信息失败。错误码{_lastError}");
+                return;
             }
-            else
+            _struIpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
+
+            for (var i = 0; i < _dwAChanTotalNum; i++)
             {
-                _struIpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
+                _iChannelNum[i] = i + _deviceInfo.byStartChan;
+            }
 
-                for (var i = 0; i < _dwAChanTotalNum; i++)
+            uint iDChanNum = 64;
+
+            if (_dwDChanTotalNum < 64)
+            {
+                iDChanNum = _dwDChanTotalNum; //如果设备IP通道小于64路，按实际路数获取
+            }
+
+            for (var i = 0; i < iDChanNum; i++)
+            {
+                _iChannelNum[i + _dwAChanTotalNum] = i + (int)_struIpParaCfgV40.dwStartDChan;
+                var byStreamType = _struIpParaCfgV40.struStreamMode[i].byGetStreamType;
+
+                dwSize = (uint)Marshal.SizeOf(_struIpParaCfgV40.struStreamMode[i].uGetStream);
+                switch (byStreamType)
                 {
-                    _iChannelNum[i] = i + _deviceInfo.byStartChan;
-                }
+                    //目前NVR仅支持直接从设备取流 NVR supports only the mode: get stream from device directly
+                    case 0:
+                        var ptrChanInfo = Marshal.AllocHGlobal((int)dwSize);
+                        Marshal.StructureToPtr(_struIpParaCfgV40.struStreamMode[i].uGetStream, ptrChanInfo, false);
+                        _struChanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
 
-                uint iDChanNum = 64;
+                        _iIpDevId[i] = _struChanInfo.byIPID + (_struChanInfo.byIPIDHigh * 256) - (iGroupNo * 64) - 1;
 
-                if (_dwDChanTotalNum < 64)
-                {
-                    iDChanNum = _dwDChanTotalNum; //如果设备IP通道小于64路，按实际路数获取
-                }
+                        Marshal.FreeHGlobal(ptrChanInfo);
+                        break;
+                    case 6:
+                        var ptrChanInfoV40 = Marshal.AllocHGlobal((int)dwSize);
+                        Marshal.StructureToPtr(_struIpParaCfgV40.struStreamMode[i].uGetStream, ptrChanInfoV40, false);
+                        _struChanInfoV40 = (CHCNetSDK.NET_DVR_IPCHANINFO_V40)Marshal.PtrToStructure(ptrChanInfoV40, typeof(CHCNetSDK.NET_DVR_IPCHANINFO_V40));
 
-                for (var i = 0; i < iDChanNum; i++)
-                {
-                    _iChannelNum[i + _dwAChanTotalNum] = i + (int)_struIpParaCfgV40.dwStartDChan;
-                    var byStreamType = _struIpParaCfgV40.struStreamMode[i].byGetStreamType;
+                        _iIpDevId[i] = _struChanInfoV40.wIPID - (iGroupNo * 64) - 1;
 
-                    dwSize = (uint)Marshal.SizeOf(_struIpParaCfgV40.struStreamMode[i].uGetStream);
-                    switch (byStreamType)
-                    {
-                        //目前NVR仅支持直接从设备取流 NVR supports only the mode: get stream from device directly
-                        case 0:
-                            var ptrChanInfo = Marshal.AllocHGlobal((int)dwSize);
-                            Marshal.StructureToPtr(_struIpParaCfgV40.struStreamMode[i].uGetStream, ptrChanInfo, false);
-                            _struChanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
-
-                            _iIpDevId[i] = _struChanInfo.byIPID + _struChanInfo.byIPIDHigh * 256 - iGroupNo * 64 - 1;
-
-                            Marshal.FreeHGlobal(ptrChanInfo);
-                            break;
-                        case 6:
-                            var ptrChanInfoV40 = Marshal.AllocHGlobal((int)dwSize);
-                            Marshal.StructureToPtr(_struIpParaCfgV40.struStreamMode[i].uGetStream, ptrChanInfoV40, false);
-                            _struChanInfoV40 = (CHCNetSDK.NET_DVR_IPCHANINFO_V40)Marshal.PtrToStructure(ptrChanInfoV40, typeof(CHCNetSDK.NET_DVR_IPCHANINFO_V40));
-
-                            _iIpDevId[i] = _struChanInfoV40.wIPID - iGroupNo * 64 - 1;
-
-                            Marshal.FreeHGlobal(ptrChanInfoV40);
-                            break;
-                    }
+                        Marshal.FreeHGlobal(ptrChanInfoV40);
+                        break;
                 }
             }
             Marshal.FreeHGlobal(ptrIpParaCfgV40);
@@ -353,7 +347,7 @@ namespace WdCameraViewer
         {
             try
             {
-                var command = (PtzControl) Enum.Parse(typeof(PtzControl), cmdString);
+                var command = (PtzControl)Enum.Parse(typeof(PtzControl), cmdString);
                 return (uint)command;
             }
             catch (Exception)
@@ -371,7 +365,7 @@ namespace WdCameraViewer
         {
             var cmd = ControlCommand(cmdString);
             if (cmd == 0) return;
-            var isStop = (uint) (stop ? 0 : 1);
+            var isStop = (uint)(stop ? 1 : 0);
             CHCNetSDK.NET_DVR_PTZControl(_mLRealHandle, cmd, isStop);
         }
 

@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraInfo.cs" />
+    <Compile Include="CameraLogin.cs" />
     <Compile Include="CHCNetSDK.cs" />
     <Compile Include="IObjectSafety.cs" />
     <Compile Include="XmlSerializerHelper.cs" />
