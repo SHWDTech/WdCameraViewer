@@ -68,12 +68,12 @@
         /// <summary>
         /// 云台上仰
         /// </summary>
-        TiltUp = 0x21,
+        TiltUp = 0x15,
 
         /// <summary>
         /// 云台下俯
         /// </summary>
-        TiltDown = 0x15,
+        TiltDown = 0x16,
 
         /// <summary>
         /// 云台左转

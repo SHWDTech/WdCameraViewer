@@ -23,7 +23,22 @@ namespace ViewerTestForm
 
         private void button3_Click(object sender, System.EventArgs e)
         {
-            _previewBox.PlatformControl("PanRight", true);
+            _previewBox.PlatformControl("TiltUp");
+        }
+
+        private void button4_Click(object sender, System.EventArgs e)
+        {
+            _previewBox.PlatformControl("TiltDown", true);
+        }
+
+        private void button5_Click(object sender, System.EventArgs e)
+        {
+            _previewBox.PlatformControl("FocusFar");
+        }
+
+        private void button6_Click(object sender, System.EventArgs e)
+        {
+            _previewBox.PlatformControl("FocusNear");
         }
     }
 }
