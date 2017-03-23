@@ -9,11 +9,19 @@ using WdVedioNet;
 
 namespace WdCameraViewer
 {
+    [Guid("16eb10ad-b459-43a2-8d25-f8c5c2fb3a35"), ComVisible(true)]
     public partial class PreviewBox : UserControl, IObjectSafety
     {
-        private readonly ResourceManager _resource = new ResourceManager(typeof(PreviewBox));
+        public PreviewBox()
+        {
+            InitializeComponent();
+            cameraViewer.Paint += WdCameraViewerPaint;
+            Disposed += OnDiposed;
+        }
 
         private bool _sdkInited;
+
+        private readonly ResourceManager _resource = new ResourceManager(typeof(PreviewBox));
 
         private string _displayMessage = string.Empty;
 
@@ -129,13 +137,6 @@ namespace WdCameraViewer
         }
 
         #endregion
-
-        public PreviewBox()
-        {
-            InitializeComponent();
-            cameraViewer.Paint += WdCameraViewerPaint;
-            Disposed += OnDiposed;
-        }
 
         /// <summary>
         /// 解析摄像头连接信息

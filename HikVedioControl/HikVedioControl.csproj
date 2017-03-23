@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{16EB10AD-B459-43A2-8D25-F8C5C2FB3A35}</ProjectGuid>
+    <ProjectGuid>{B6F252A3-0AB9-4E2E-BFBB-E0EBD9F755BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WdCameraViewer</RootNamespace>
-    <AssemblyName>WdCameraViewer</AssemblyName>
+    <RootNamespace>WdVedioNet</RootNamespace>
+    <AssemblyName>HikVedioControl</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,40 +28,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraLogin.cs" />
-    <Compile Include="IObjectSafety.cs" />
-    <Compile Include="XmlSerializerHelper.cs" />
+    <Compile Include="CHCNetSDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PtzControl.cs" />
-    <Compile Include="PreviewBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PreviewBox.Designer.cs">
-      <DependentUpon>PreviewBox.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="PreviewBox.resx">
-      <DependentUpon>PreviewBox.cs</DependentUpon>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PreviewBox1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HikVedioControl\HikVedioControl.csproj">
-      <Project>{b6f252a3-0ab9-4e2e-bfbb-e0ebd9f755bc}</Project>
-      <Name>HikVedioControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
