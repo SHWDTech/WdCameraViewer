@@ -9,7 +9,7 @@ using WdVedioNet;
 
 namespace WdCameraViewer
 {
-    [Guid("16eb10ad-b459-43a2-8d25-f8c5c2fb3a35"), ComVisible(true)]
+    [Guid("D3262329-D458-4EF4-AA98-6CC75AAA4E31"), ComVisible(true)]
     public partial class PreviewBox : UserControl, IObjectSafety
     {
         public PreviewBox()
@@ -22,6 +22,8 @@ namespace WdCameraViewer
         private bool _sdkInited;
 
         private readonly ResourceManager _resource = new ResourceManager(typeof(PreviewBox));
+
+        private Exception _lastException;
 
         private string _displayMessage = string.Empty;
 
@@ -153,8 +155,9 @@ namespace WdCameraViewer
                 _cameraLogin = XmlSerializerHelper.DeSerialize<CameraLogin>(jsonParams);
                 CameraLogin();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _lastException = ex;
                 DisplayMessage("解析连接信息失败。");
             }
         }
@@ -190,6 +193,11 @@ namespace WdCameraViewer
         {
             _displayMessage = message;
             cameraViewer.Invalidate();
+        }
+
+        public Exception DisplayLastException()
+        {
+            return _lastException;
         }
 
         /// <summary>
