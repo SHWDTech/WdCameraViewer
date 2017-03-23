@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewerTestForm", "ViewerTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WdCameraTestConsole", "WdCameraTestConsole\WdCameraTestConsole.csproj", "{55BC0723-5638-4753-BB66-AC22F9625F4B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WdCameraViewerSetup", "WdCameraViewerSetup\WdCameraViewerSetup.vdproj", "{1F27BB79-2E38-4F68-B065-5F5E420AACCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,8 @@ Global
 		{55BC0723-5638-4753-BB66-AC22F9625F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55BC0723-5638-4753-BB66-AC22F9625F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55BC0723-5638-4753-BB66-AC22F9625F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F27BB79-2E38-4F68-B065-5F5E420AACCA}.Debug|Any CPU.ActiveCfg = Debug
+		{1F27BB79-2E38-4F68-B065-5F5E420AACCA}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
