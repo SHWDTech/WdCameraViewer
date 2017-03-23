@@ -307,7 +307,7 @@ namespace WdCameraViewer
             Marshal.FreeHGlobal(ptrIpParaCfgV40);
         }
 
-        public void Preview()
+        public void StartPreview()
         {
             var lpPreviewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO
             {
@@ -329,6 +329,11 @@ namespace WdCameraViewer
             {
                 DisplayMessage("开启预览失败!");
             }
+        }
+
+        public void StopPreview()
+        {
+            CHCNetSDK.NET_DVR_StopRealPlay(_mLRealHandle);
         }
 
         private static string DecryptString(string sSource)
