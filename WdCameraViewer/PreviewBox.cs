@@ -200,6 +200,8 @@ namespace WdCameraViewer
             return _lastException;
         }
 
+        public void Message(string message) => DisplayMessage(message);
+
         /// <summary>
         /// PICTUREBOX控件响应PAINT事件显示问题提示。
         /// </summary>
@@ -238,7 +240,7 @@ namespace WdCameraViewer
                 DisplayMessage($"用户登录失败，错误号：{_lastError}");
                 return;
             }
-            DisplayMessage("用户登录成功，可以开始预览。");
+            DisplayMessage("用户登录成功。");
             _dwAChanTotalNum = _deviceInfo.byChanNum;
             _dwDChanTotalNum = _deviceInfo.byIPChanNum + (256 * (uint)_deviceInfo.byHighDChanNum);
 
@@ -305,6 +307,7 @@ namespace WdCameraViewer
                 }
             }
             Marshal.FreeHGlobal(ptrIpParaCfgV40);
+            DisplayMessage("控件初始化完成，可以启动预览。");
         }
 
         public void StartPreview()
@@ -333,7 +336,10 @@ namespace WdCameraViewer
 
         public void StopPreview()
         {
-            CHCNetSDK.NET_DVR_StopRealPlay(_mLRealHandle);
+            if (CHCNetSDK.NET_DVR_StopRealPlay(_mLRealHandle))
+            {
+                DisplayMessage("预览已停止。");
+            }
         }
 
         private static string DecryptString(string sSource)
