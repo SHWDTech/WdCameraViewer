@@ -308,7 +308,10 @@ namespace WdCameraViewer
             DisplayMessage("控件初始化完成，可以启动预览。");
         }
 
-        public bool StartPreview()
+        public bool Preview() 
+            => _isPreviewing ? StopPreview() : StartPreview();
+
+        private bool StartPreview()
         {
             var lpPreviewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO
             {
@@ -338,7 +341,7 @@ namespace WdCameraViewer
             return _isPreviewing;
         }
 
-        public bool StopPreview()
+        private bool StopPreview()
         {
             if (CHCNetSDK.NET_DVR_StopRealPlay(_mLRealHandle))
             {

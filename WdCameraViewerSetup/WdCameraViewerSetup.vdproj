@@ -46,12 +46,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_20B638DB4CC20FEFB9ABCEF93B370F77"
-        "OwnerKey" = "8:_F17A4196FE7344D6B25DCAEC7E285EA1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_42FD5E33E82C45C98D25E67C939DD10A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -150,6 +144,12 @@
         {
         "MsmKey" = "8:_B6F9E58369DA48349C4F4303A7942AC6"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CED845FE58E5F0D85F9B843EA182B789"
+        "OwnerKey" = "8:_F17A4196FE7344D6B25DCAEC7E285EA1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -399,26 +399,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20B638DB4CC20FEFB9ABCEF93B370F77"
-            {
-            "SourcePath" = "8:WdCameraViewer.tlb"
-            "TargetName" = "8:WdCameraViewer.tlb"
-            "Tag" = "8:"
-            "Folder" = "8:_465FD880AF204A3BB7CED81F3BFD8813"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_42FD5E33E82C45C98D25E67C939DD10A"
@@ -772,6 +752,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CED845FE58E5F0D85F9B843EA182B789"
+            {
+            "SourcePath" = "8:WdCameraViewer.tlb"
+            "TargetName" = "8:WdCameraViewer.tlb"
+            "Tag" = "8:"
+            "Folder" = "8:_465FD880AF204A3BB7CED81F3BFD8813"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D396423AE4D544128875CD87EBB9C7C5"
             {
             "SourcePath" = "8:D:\\WorkBench\\海康威视\\CH-HCNetSDK(Windows32)V5.2.6.10_build20161201\\库文件\\calib.dll"
@@ -959,15 +959,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WdCameraViewer"
-        "ProductCode" = "8:{05BAD019-2E38-45A7-9AA7-B4C4F4CADC70}"
-        "PackageCode" = "8:{E104F6B8-98C8-4ECD-8ABD-E80222C8E0D8}"
+        "ProductCode" = "8:{DD64BF25-57F7-4FFA-B154-A19E5EE827DF}"
+        "PackageCode" = "8:{8A704328-E204-4336-8AFA-BC340826A9E7}"
         "UpgradeCode" = "8:{38B9C9E3-9A5A-4549-ADC7-CE0FB79399D7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.6"
+        "ProductVersion" = "8:1.0.7"
         "Manufacturer" = "8:SHWDTech"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
