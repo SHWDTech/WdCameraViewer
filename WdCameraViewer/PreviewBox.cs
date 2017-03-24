@@ -65,6 +65,8 @@ namespace WdCameraViewer
 
         private static readonly RSACryptoServiceProvider RsaCryptoServiceProvider = new RSACryptoServiceProvider();
 
+        private bool _isPreviewing;
+
         #region IObjectSafety 成员
         private const string IidIDispatch = "{00020400-0000-0000-C000-000000000046}";
         private const string IidIDispatchEx = "{a6ef9860-c720-11d0-9337-00a0c90dcaa9}";
@@ -195,10 +197,7 @@ namespace WdCameraViewer
             cameraViewer.Invalidate();
         }
 
-        public Exception DisplayLastException()
-        {
-            return _lastException;
-        }
+        public Exception DisplayLastException() => _lastException;
 
         public void Message(string message) => DisplayMessage(message);
 
@@ -209,12 +208,11 @@ namespace WdCameraViewer
         /// <param name="e"></param>
         private void WdCameraViewerPaint(object sender, PaintEventArgs e)
         {
-            if (string.IsNullOrEmpty(_displayMessage)) return;
+            if (string.IsNullOrEmpty(_displayMessage) || _isPreviewing) return;
             using (var myFont = new Font("simsun", 14))
             {
                 e.Graphics.DrawString(_displayMessage, myFont, _displayBrush, cameraViewer.ClientRectangle, _displayStringFormat);
             }
-            _displayMessage = string.Empty;
         }
 
         private void CameraLogin()
@@ -310,7 +308,7 @@ namespace WdCameraViewer
             DisplayMessage("控件初始化完成，可以启动预览。");
         }
 
-        public void StartPreview()
+        public bool StartPreview()
         {
             var lpPreviewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO
             {
@@ -332,14 +330,22 @@ namespace WdCameraViewer
             {
                 DisplayMessage("开启预览失败!");
             }
+            else
+            {
+                _isPreviewing = true;
+            }
+
+            return _isPreviewing;
         }
 
-        public void StopPreview()
+        public bool StopPreview()
         {
             if (CHCNetSDK.NET_DVR_StopRealPlay(_mLRealHandle))
             {
                 DisplayMessage("预览已停止。");
+                _isPreviewing = false;
             }
+            return _isPreviewing;
         }
 
         private static string DecryptString(string sSource)
