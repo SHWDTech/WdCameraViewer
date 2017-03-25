@@ -197,7 +197,7 @@ namespace WdCameraViewer
             cameraViewer.Invalidate();
         }
 
-        public Exception DisplayLastException() => _lastException;
+        public string DisplayLastException() => _lastException.ToString();
 
         public void Message(string message) => DisplayMessage(message);
 

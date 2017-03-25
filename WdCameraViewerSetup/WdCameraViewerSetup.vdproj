@@ -628,11 +628,6 @@
             "AssemblyAsmDisplayName" = "8:HikVedioControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_852088ACCD9D6491FF7EE8A383DCC170"
-                    {
-                    "Name" = "8:HikVedioControl.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:HikVedioControl.dll"
             "TargetName" = "8:"
@@ -959,15 +954,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WdCameraViewer"
-        "ProductCode" = "8:{DD64BF25-57F7-4FFA-B154-A19E5EE827DF}"
-        "PackageCode" = "8:{8A704328-E204-4336-8AFA-BC340826A9E7}"
+        "ProductCode" = "8:{EF075036-8460-43DF-A2F9-3E881319441A}"
+        "PackageCode" = "8:{C55B201F-823A-4313-8377-82698AE94E13}"
         "UpgradeCode" = "8:{38B9C9E3-9A5A-4549-ADC7-CE0FB79399D7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.7"
+        "ProductVersion" = "8:1.0.8"
         "Manufacturer" = "8:SHWDTech"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
